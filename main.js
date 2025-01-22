@@ -95,7 +95,7 @@ function bang() {
   punteggioCard.innerHTML = `${punteggio}`;
   lv++;
   targeted = true;
-  displayModal();
+  startGame();
 }
 //mostra il modale tra un livello e l'altro
 function displayModal() {
