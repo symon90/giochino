@@ -12,9 +12,11 @@ let punteggioCard = document.querySelector(".punteggio");
 const rect = canvas.getBoundingClientRect();
 let punteggio = 0;
 let lv = 1;
-
+const flapping_wings =new Audio('./sound/wings.mp3');
+const gun=new Audio('./sound/gun.mp3')
 const url = "./img/duck.png";
 const duck = new Image();
+const count_bullet=document.querySelector('.bullet_p');
 duck.src = url;
 
 // Posizione e dimensioni del duck
@@ -23,6 +25,7 @@ let duckPosition = { x: 0, y: 0, width: 20, height: 20 };
 function startGame() {
   context.clearRect(0, 0, canvas.width, canvas.height); // Pulisce tutto il canvas
   colpi = 3;
+  updateBullet()
   benvenuto.style.display = "none";
   targeted = false;
   x = posx();
@@ -33,6 +36,8 @@ function startGame() {
   a = a * 1.05;
   b = b * 1.05;
   context.drawImage(duck, x, y, duckPosition.width, duckPosition.height);
+  flapping_wings.loop=true;
+  flapping_wings.play()
   update(x, y);
 }
 //posizioni randomiche iniziali
@@ -67,6 +72,7 @@ function update(x, y) {
 
 // Gestione del clic sul canvas
 canvas.addEventListener("mousedown", (event) => {
+  gun.play()
   // Ottieni le coordinate relative al canvas
   const scaleX = canvas.width / rect.width;
   const scaleY = canvas.height / rect.height;
@@ -83,10 +89,12 @@ canvas.addEventListener("mousedown", (event) => {
     bang();
   } else {
     if (colpi == 1) {
+      colpi--;
       gameOver();
     } else {
       colpi--;
     }
+    updateBullet()
   }
 });
 //gestisce il colpito
@@ -95,7 +103,11 @@ function bang() {
   punteggioCard.innerHTML = `${punteggio}`;
   lv++;
   targeted = true;
-  startGame();
+  setTimeout(() => {
+    
+    startGame();
+  }, 100);
+  
 }
 //mostra il modale tra un livello e l'altro
 function displayModal() {
@@ -114,6 +126,7 @@ function displayModal() {
 }
 //game over
 function gameOver() {
+  flapping_wings.pause()
   targeted = true;
   a = 0.5;
   b = 0.5;
@@ -121,4 +134,10 @@ function gameOver() {
   <p>Hai totalizzato ${punteggio}</p>
   <button onclick='startGame()'>Nuova partita</button>`;
   benvenuto.style.display = "block";
+}
+
+//aggiornamneto colpi pistola a schermo
+function updateBullet() {
+  count_bullet.innerHTML=`X${colpi}`;
+  
 }
