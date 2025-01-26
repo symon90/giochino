@@ -14,13 +14,17 @@ let punteggio = 0;
 let lv = 1;
 const flapping_wings = new Audio("./sound/wings.mp3");
 const gun = new Audio("./sound/gun.mp3");
-const url = "./img/duck.png";
-const duck = new Image();
+const url = "./img/colomba.png";
+const urlx = "./img/colombax.png";
+const colomba = new Image();
+const colombax = new Image();
 const count_bullet = document.querySelector(".bullet_p");
-duck.src = url;
+colomba.src = url;
+colombax.src = urlx;
+let side = true;
 
-// Posizione e dimensioni del duck
-let duckPosition = { x: 0, y: 0, width: 20, height: 20 };
+// Posizione e dimensioni del colomba
+let colombaPosition = { x: 0, y: 0, width: 20, height: 20 };
 //inizio gioco/livello
 function startGame() {
   context.clearRect(0, 0, canvas.width, canvas.height); // Pulisce tutto il canvas
@@ -30,40 +34,67 @@ function startGame() {
   targeted = false;
   x = posx();
   y = posy();
-  duckPosition.x = x;
-  duckPosition.y = y;
+  colombaPosition.x = x;
+  colombaPosition.y = y;
   a = a * 1.05;
   b = b * 1.05;
-  context.drawImage(duck, x, y, duckPosition.width, duckPosition.height);
+  context.drawImage(
+    colomba,
+    x,
+    y,
+    colombaPosition.width,
+    colombaPosition.height
+  );
   flapping_wings.loop = true;
   flapping_wings.play();
   update(x, y);
 }
 //posizioni randomiche iniziali
 function posx() {
-  return Math.round(Math.random() * (canvas.width - duckPosition.width));
+  return Math.round(Math.random() * (canvas.width - colombaPosition.width));
 }
 
 function posy() {
-  return Math.round(Math.random() * (canvas.height - duckPosition.height));
+  return Math.round(Math.random() * (canvas.height - colombaPosition.height));
 }
 //gestione degli spostamenti dell'anatra
 function update(x, y) {
   context.clearRect(0, 0, canvas.width, canvas.height); // Pulisce tutto il canvas
   if (!targeted) {
     // Movimento e controllo dei bordi
-    if (x + a + duckPosition.width >= canvas.width || x + a <= 0) {
+    if (x + a + colombaPosition.width >= canvas.width) {
+      side = false;
       a = -a;
+    } else if (x + a <= 0) {
+      a = -a;
+
+      side = true;
     }
-    if (y + b + duckPosition.height >= canvas.height || y + b <= 0) {
+
+    if (y + b + colombaPosition.height >= canvas.height || y + b <= 0) {
       b = -b;
     }
     x = x + a;
     y = y + b;
-    duckPosition.x = x;
-    duckPosition.y = y;
-
-    context.drawImage(duck, x, y, duckPosition.width, duckPosition.height);
+    colombaPosition.x = x;
+    colombaPosition.y = y;
+    if (side) {
+      context.drawImage(
+        colomba,
+        x,
+        y,
+        colombaPosition.width,
+        colombaPosition.height
+      );
+    } else {
+      context.drawImage(
+        colombax,
+        x,
+        y,
+        colombaPosition.width,
+        colombaPosition.height
+      );
+    }
 
     requestAnimationFrame(() => update(x, y));
   }
@@ -78,12 +109,12 @@ canvas.addEventListener("mousedown", (event) => {
   const mouseX = (event.clientX - rect.left) * scaleX;
   const mouseY = (event.clientY - rect.top) * scaleY;
 
-  // Controlla se il clic è dentro i limiti del duck
+  // Controlla se il clic è dentro i limiti del colomba
   if (
-    mouseX >= duckPosition.x &&
-    mouseX <= duckPosition.x + duckPosition.width &&
-    mouseY >= duckPosition.y &&
-    mouseY <= duckPosition.y + duckPosition.height
+    mouseX >= colombaPosition.x &&
+    mouseX <= colombaPosition.x + colombaPosition.width &&
+    mouseY >= colombaPosition.y &&
+    mouseY <= colombaPosition.y + colombaPosition.height
   ) {
     bang();
   } else {
