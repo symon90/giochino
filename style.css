@@ -8,10 +8,16 @@ body {
   color: white;
   font-family: "Atari", sans-serif;
 }
+header {
+  width: 80%;
+  display: flex;
+  justify-content: space-between;
+}
 .punteggio {
-  position: absolute;
-  top: 0px;
+  /* position: absolute;
+  top: 0px; */
   right: 10%;
+  width: 100px;
   font-size: xx-large;
 }
 
@@ -22,7 +28,7 @@ h1 {
 .container {
   position: relative;
   width: 80%;
-  height: 600px;
+  height: 500px;
   background-color: aqua;
 }
 #alberi {
@@ -30,7 +36,7 @@ h1 {
   width: 80%;
   z-index: 2;
   position: absolute;
-  top: 300px;
+  top: 230px;
   height: 400px;
   pointer-events: none;
 }
@@ -55,19 +61,21 @@ button {
 }
 
 .bullet {
-  position: absolute;
-  left: 10%;
-  top: 30px;
+  /* position: absolute; */
+  /* left: 10%;
+  top: 30px; */
   display: flex;
   align-items: flex-start;
-  width: 200px;
+  width: 80px;
 }
 .bullet_img {
-  width: 60px;
+  margin-top: 20px;
+  width: 90px;
 }
 .bullet_p {
   font-size: xx-large;
-  position: relative;
+  margin-left: -30px;
+  /* position: relative;
   top: -28px;
-  left: -15px;
+  left: -15px; */
 }
