@@ -14,6 +14,7 @@ let punteggio = 0;
 let lv = 1;
 const flapping_wings = new Audio("./sound/wings.mp3");
 const gun = new Audio("./sound/gun.mp3");
+gun.volume = 0.3;
 const url = "./img/colomba.png";
 const urlx = "./img/colombax.png";
 const colomba = new Image();
